@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/setting_activity_background"
+    tools:context="com.tvrdikales.paa.pexeso.PlayersActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/playersTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="fill_vertical|center_horizontal"
+            android:text="@string/players_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white_text_color"
+            android:textSize="50dp" />
+
+        <EditText
+            android:id="@+id/player1Name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:background="@color/textfield_background"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/default_player_1_name"
+            android:textColor="@color/textfield_foreground"
+            android:textSize="40dp" />
+
+        <CheckBox
+            android:id="@+id/player2TypeCheckBox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="center|right"
+            android:onClick="player2TypeCheckBoxChange"
+            android:text="@string/AI_player_check"
+            android:textSize="40dp" />
+
+        <EditText
+            android:id="@+id/player2Name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:background="@color/textfield_background"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/default_player_2_name"
+            android:textColor="@color/textfield_foreground"
+            android:textSize="40dp" />
+
+
+        <Button
+            android:id="@+id/confirmBtn"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:onClick="playersConfirmed"
+            android:text="@string/confirm_button" />
+
+    </LinearLayout>
+</FrameLayout>

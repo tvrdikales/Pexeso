@@ -1,0 +1,49 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/setting_activity_background"
+    tools:context="com.tvrdikales.paa.pexeso.DifficultyActivity">
+
+        <LinearLayout android:id="@+id/fullscreen_content"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/difficulty_title"
+                android:id="@+id/titleTextView"
+                android:layout_weight="0.10"
+                android:textSize="40dp"
+                android:gravity="fill_vertical|center_horizontal"
+                android:textColor="@color/white_text_color"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="5"
+                android:id="@+id/pairsCountTextView"
+                android:layout_weight="0.30"
+                android:gravity="fill_vertical|center_horizontal"
+                android:textSize="100dp"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.50"
+                android:max="15"
+                android:progress="3"
+                />
+
+            <Button android:id="@+id/confirmBtn" style="?metaButtonBarButtonStyle"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_weight="0.10" android:text="@string/confirm_button"
+                android:onClick="pairsCountConfirmed"/>
+        </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pexeso</string>
+    <string name="confirm_button">Potvrdit</string>
+
+    <!-- mainActivity -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="pairs_count_label">Párů: </string>
+    <string name="players_count_label">Hráčů: </string>
+
+    <!-- difficultActivity -->
+    <string name="title_activity_difficulty">DifficultyActivity</string>
+    <string name="difficulty_title">Zvolte počet párů hracích karet</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--playersActivity-->
+    <string name="title_activity_players">PlayersActivity</string>
+    <string name="players_title">Zadejte jména hráčů</string>
+    <string name="AI_player_check">Hrát proti AI</string>
+    <string name="default_player_1_name">Hráč 1</string>
+    <string name="default_player_2_name">Hráč 2</string>
+    <string name="player_1_name_invalid">Zadejte jméno prvního hráče</string>
+    <string name="player_2_name_invalid">Zadejte jméno druhého hráče</string>
+
+    <!--tableActivity-->
+    <string name="title_activity_table">TableActivity</string>
+
+
+</resources>

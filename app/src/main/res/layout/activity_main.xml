@@ -1,0 +1,88 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/main_background"
+    tools:context="com.tvrdikales.paa.pexeso.MainActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+             is needed to present your content, e.g. VideoView, SurfaceView,
+             TextureView, etc. -->
+    <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
+        android:layout_height="109dp" android:keepScreenOn="true" android:textColor="#33b5e5"
+        android:textStyle="bold" android:textSize="50sp" android:gravity="center"
+        android:text="@string/app_name" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Začít hru"
+            android:id="@+id/newGameBtn"
+            android:layout_gravity="center_horizontal"
+            android:onClick="startGame"/>
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Obtížnost"
+            android:id="@+id/difficultyBtn"
+            android:layout_gravity="center_horizontal"
+            android:onClick="difficultyChange"/>
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Hráči"
+            android:id="@+id/playersBtn"
+            android:layout_gravity="center_horizontal"
+            android:onClick="playersChange"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/players_count_label"
+                android:id="@+id/playersLabel"
+                android:layout_weight="0.25" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text=""
+                android:id="@+id/playersTextView"
+                android:layout_weight="0.25"
+                android:layout_gravity="left"
+                android:gravity="left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/pairs_count_label"
+                android:id="@+id/pairsLabel"
+                android:layout_weight="0.25"
+                android:layout_gravity="right"
+                android:gravity="right" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/pairsTextView"
+                android:layout_weight="0.25"
+                android:layout_gravity="left"
+                android:gravity="left" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
