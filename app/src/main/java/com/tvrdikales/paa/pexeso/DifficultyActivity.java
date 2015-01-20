@@ -1,7 +1,5 @@
 package com.tvrdikales.paa.pexeso;
 
-import com.tvrdikales.paa.pexeso.util.util.SystemUiHider;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,52 +8,25 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tvrdikales.paa.pexeso.R;
+import com.tvrdikales.paa.pexeso.util.util.SystemUiHider;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
- */
 public class DifficultyActivity extends Activity {
     public static final String PAIRS_COUNT_RESULT = "pairs_count_result";
     public static final String DEFAULT_SEEKBAR_VALUE = "default_seekbar_value";
+    public static final int SEEKBAR_MINIMUM = 2;
 
-    SeekBar seekBar;
-    TextView countTextView;
+    private SeekBar seekBar;
+    private TextView countTextView;
 
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
+    //generovaný kód
     private static final boolean AUTO_HIDE = true;
-
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-    /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
     private static final boolean TOGGLE_ON_CLICK = true;
-
-    /**
-     * The flags to pass to {@link SystemUiHider#getInstance}.
-     */
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
-    /**
-     * The instance of the {@link SystemUiHider} for this activity.
-     */
     private SystemUiHider mSystemUiHider;
 
     @Override
@@ -84,13 +55,13 @@ public class DifficultyActivity extends Activity {
                             // in-layout UI controls at the bottom of the
                             // screen.
                             if (mControlsHeight == 0) {
-                               // mControlsHeight = controlsView.getHeight();
+                                // mControlsHeight = controlsView.getHeight();
                             }
                             if (mShortAnimTime == 0) {
                                 mShortAnimTime = getResources().getInteger(
                                         android.R.integer.config_shortAnimTime);
                             }
-                           // controlsView.animate()
+                            // controlsView.animate()
                             //        .translationY(visible ? 0 : mControlsHeight)
                             //        .setDuration(mShortAnimTime);
                         } else {
@@ -111,13 +82,15 @@ public class DifficultyActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        // findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                ((TextView)findViewById(R.id.pairsCountTextView)).setText(progress+"");
+                if (progress >= SEEKBAR_MINIMUM) {
+                    ((TextView) findViewById(R.id.pairsCountTextView)).setText(progress + "");
+                }
             }
 
             @Override
@@ -131,7 +104,12 @@ public class DifficultyActivity extends Activity {
             }
         });
 
-        int inicialValue = getIntent().getIntExtra(DEFAULT_SEEKBAR_VALUE,5);
+        // výpočet maximálního počtu párů, jež se vejde na display
+        int rowsMax = (int) Math.floor(getWindowManager().getDefaultDisplay().getHeight() / (TableActivity.MINIMAL_CARD_SIZE + (TableActivity.CARD_MARGIN * 2)));
+        int colsMax = (int) Math.floor(getWindowManager().getDefaultDisplay().getWidth() / (TableActivity.MINIMAL_CARD_SIZE + (TableActivity.CARD_MARGIN * 2)));
+
+        int inicialValue = getIntent().getIntExtra(DEFAULT_SEEKBAR_VALUE, 5);
+        seekBar.setMax((rowsMax * colsMax) / 2);
         seekBar.setProgress(inicialValue);
     }
 
@@ -178,11 +156,11 @@ public class DifficultyActivity extends Activity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public void pairsCountConfirmed(View view){
+    public void pairsCountConfirmed(View view) {
         Intent intent = getIntent();
-        intent.putExtra(PAIRS_COUNT_RESULT, seekBar.getProgress());
+        intent.putExtra(PAIRS_COUNT_RESULT, Math.max(SEEKBAR_MINIMUM, seekBar.getProgress()));
 
-        this.setResult(Activity.RESULT_OK,intent);
+        this.setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
 }

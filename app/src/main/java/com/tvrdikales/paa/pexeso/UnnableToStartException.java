@@ -1,4 +1,4 @@
-package com.tvrdikales.paa.pexeso.util.util;
+package com.tvrdikales.paa.pexeso;
 
 public class UnnableToStartException extends Exception {
     public UnnableToStartException(String detailMessage) {

@@ -3,10 +3,10 @@ package com.tvrdikales.paa.pexeso;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,9 +21,7 @@ import java.util.ArrayList;
 
 
 public class PlayersActivity extends Activity {
-    public static final String PLAYER_1_NAME = "player1Name";
-    public static final String PLAYER_2_NAME = "player2Name";
-    public static final String AI_PLAYER = "aiPlayer";
+    public static final String PLAYERS = "players";
 
     CheckBox aiCheckBox;
     EditText player1NameEdit;
@@ -88,9 +86,17 @@ public class PlayersActivity extends Activity {
         player1NameEdit = (EditText) findViewById(R.id.player1Name);
         player2NameEdit = (EditText) findViewById(R.id.player2Name);
 
-        player1NameEdit.setText(getIntent().getStringExtra(PLAYER_1_NAME) == null ? getResources().getString(R.string.default_player_1_name) : getIntent().getStringExtra(PLAYER_1_NAME));
-        player2NameEdit.setText(getIntent().getStringExtra(PLAYER_2_NAME) == null ? getResources().getString(R.string.default_player_2_name) : getIntent().getStringExtra(PLAYER_2_NAME));
-        aiCheckBox.setChecked(getIntent().getBooleanExtra(AI_PLAYER, false));
+        ArrayList<Player> players = (ArrayList<Player>) getIntent().getSerializableExtra(PLAYERS);
+
+        if (players.size() == 0) {
+            player1NameEdit.setText(getResources().getString(R.string.default_player_1_name));
+            player2NameEdit.setText(getResources().getString(R.string.default_player_2_name));
+            aiCheckBox.setChecked(false);
+        } else {
+            player1NameEdit.setText(players.get(0).getName());
+            player2NameEdit.setText(players.get(1).getName());
+            aiCheckBox.setChecked(players.get(1).isAI());
+        }
         player2TypeCheckBoxChange(aiCheckBox);
     }
 
@@ -169,9 +175,10 @@ public class PlayersActivity extends Activity {
             return;
         }
         Intent intent = getIntent();
-        intent.putExtra(PLAYER_1_NAME, player1NameEdit.getText().toString());
-        intent.putExtra(PLAYER_2_NAME, player2NameEdit.getText().toString());
-        intent.putExtra(AI_PLAYER, aiCheckBox.isChecked());
+        ArrayList<Player> result = new ArrayList<>();
+        result.add(new Player(Color.GREEN, player1NameEdit.getText().toString(), false));
+        result.add(new Player(Color.YELLOW, player2NameEdit.getText().toString(), aiCheckBox.isChecked()));
+        intent.putExtra(PLAYERS, result);
 
         this.setResult(Activity.RESULT_OK, intent);
         this.finish();

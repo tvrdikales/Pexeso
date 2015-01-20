@@ -1,9 +1,5 @@
 package com.tvrdikales.paa.pexeso;
 
-import com.tvrdikales.paa.pexeso.util.Game;
-import com.tvrdikales.paa.pexeso.util.SystemUiHider;
-import com.tvrdikales.paa.pexeso.util.util.UnnableToStartException;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,15 +11,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tvrdikales.paa.pexeso.util.SystemUiHider;
+
 import java.util.ArrayList;
 
-
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
- */
 public class MainActivity extends Activity {
     public static final int PAIRS_COUNT_SETTING_REQUEST = 100;
     public static final int PLAYERS_SETTINGS_REQUEST = 200;
@@ -31,33 +22,13 @@ public class MainActivity extends Activity {
 
     public Game actualGame = new Game();
 
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
+    //generovaný kód
     private static final boolean AUTO_HIDE = true;
-
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-    /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
     private static final boolean TOGGLE_ON_CLICK = true;
-
-    /**
-     * The flags to pass to {@link SystemUiHider#getInstance}.
-     */
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
-    /**
-     * The instance of the {@link SystemUiHider} for this activity.
-     */
     private SystemUiHider mSystemUiHider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,32 +140,26 @@ public class MainActivity extends Activity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public void startGame(View view){
-        try{
+    public void startGame(View view) {
+        try {
             actualGame.startGame();
-            Intent intent = new Intent(this,TableActivity.class);
+            Intent intent = new Intent(this, TableActivity.class);
             intent.putExtra(TableActivity.GAME_SETTINGS, actualGame);
             startActivityForResult(intent, GAME_RESULT);
-        }catch(UnnableToStartException ex){
-            Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+        } catch (UnnableToStartException ex) {
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     public void difficultyChange(View view) {
         Intent intent = new Intent(this, DifficultyActivity.class);
-        if (actualGame.getPairsCount() != null)
-            intent.putExtra(DifficultyActivity.DEFAULT_SEEKBAR_VALUE, actualGame.getPairsCount());
+        if (actualGame.getGroupsCount() != null) intent.putExtra(DifficultyActivity.DEFAULT_SEEKBAR_VALUE, actualGame.getGroupsCount());
         startActivityForResult(intent, PAIRS_COUNT_SETTING_REQUEST);
     }
 
     public void playersChange(View view) {
         Intent intent = new Intent(this, PlayersActivity.class);
-        if (actualGame.getPlayer1Name() != null)
-            intent.putExtra(PlayersActivity.PLAYER_1_NAME, actualGame.getPlayer1Name());
-        if (actualGame.getPlayer2Name() != null)
-            intent.putExtra(PlayersActivity.PLAYER_2_NAME, actualGame.getPlayer2Name());
-        if (actualGame.getPlayer2AI() != null)
-            intent.putExtra(PlayersActivity.AI_PLAYER, actualGame.getPlayer2AI());
+        intent.putExtra(PlayersActivity.PLAYERS, actualGame.getPlayers());
         startActivityForResult(intent, PLAYERS_SETTINGS_REQUEST);
     }
 
@@ -204,19 +169,21 @@ public class MainActivity extends Activity {
         switch (requestCode) {
             case PLAYERS_SETTINGS_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
-                    actualGame.setPlayer1Name(data.getStringExtra(PlayersActivity.PLAYER_1_NAME));
-                    actualGame.setPlayer2Name(data.getStringExtra(PlayersActivity.PLAYER_2_NAME));
-                    actualGame.setPlayer2AI(data.getBooleanExtra(PlayersActivity.AI_PLAYER, false));
-                    ((TextView)findViewById(R.id.playersTextView)).setText(actualGame.getPlayer2AI().booleanValue()?"1+AI":"2");
+                    actualGame.setPlayers((ArrayList<Player>) data.getSerializableExtra(PlayersActivity.PLAYERS));
+                    int human=0,ai=0;
+                    for(Player p :actualGame.getPlayers()){
+                        if(p.isAI()){ai++;}else{human++;}
+                    }
+                    ((TextView) findViewById(R.id.playersTextView)).setText(String.format("%d + %d AI",human,ai));
                 }
                 return;
 
             case PAIRS_COUNT_SETTING_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
                     int pairsCount = data.getIntExtra(DifficultyActivity.PAIRS_COUNT_RESULT, 0);
-                    actualGame.setPairsCount(pairsCount);
+                    actualGame.setGroupsCount(pairsCount);
                     if (pairsCount != 0) {
-                        TextView pairsView =(TextView)findViewById(R.id.pairsTextView);
+                        TextView pairsView = (TextView) findViewById(R.id.pairsTextView);
                         pairsView.setText(pairsCount + "");
                     }
                 }
